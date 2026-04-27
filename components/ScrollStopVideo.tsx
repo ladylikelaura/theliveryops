@@ -58,24 +58,41 @@ export default function ScrollStopVideo() {
     removeBackground(ctx, w * dpr, h * dpr);
   };
 
-  // Preload frames
+  // Preload frames — only after canvas enters viewport
   useEffect(() => {
-    const frames: HTMLImageElement[] = new Array(TOTAL_FRAMES);
-    let loadedCount = 0;
-    for (let i = 1; i <= TOTAL_FRAMES; i++) {
-      const img = new Image();
-      const idx = i - 1;
-      img.onload = img.onerror = () => {
-        loadedCount++;
-        setLoadProgress(loadedCount / TOTAL_FRAMES);
-        if (loadedCount === TOTAL_FRAMES) {
-          framesRef.current = frames;
-          setReady(true);
+    const container = canvasRef.current?.parentElement;
+    if (!container) return;
+
+    const load = () => {
+      const frames: HTMLImageElement[] = new Array(TOTAL_FRAMES);
+      let loadedCount = 0;
+      for (let i = 1; i <= TOTAL_FRAMES; i++) {
+        const img = new Image();
+        const idx = i - 1;
+        img.onload = img.onerror = () => {
+          loadedCount++;
+          setLoadProgress(loadedCount / TOTAL_FRAMES);
+          if (loadedCount === TOTAL_FRAMES) {
+            framesRef.current = frames;
+            setReady(true);
+          }
+        };
+        img.src = frameSrc(i);
+        frames[idx] = img;
+      }
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          observer.disconnect();
+          load();
         }
-      };
-      img.src = frameSrc(i);
-      frames[idx] = img;
-    }
+      },
+      { rootMargin: "200px" }
+    );
+    observer.observe(container);
+    return () => observer.disconnect();
   }, []);
 
   // Animation loop — plays through, shows tagline, then loops back

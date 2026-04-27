@@ -9,9 +9,9 @@ gsap.registerPlugin(ScrollTrigger, SplitText);
 
 
 const lines = [
-  { text: "Meet Theliverops.", size: "text-[clamp(36px,5vw,64px)]" },
-  { text: "Your Ops Running Itself,", size: "text-[clamp(44px,6.5vw,80px)]" },
-  { text: "From Day One.", size: "text-[clamp(36px,5vw,64px)]" },
+  { text: "Meet Theliverops.", size: "text-[clamp(28px,5vw,64px)]" },
+  { text: "Your Ops Running Itself,", size: "text-[clamp(32px,6.5vw,80px)]" },
+  { text: "From Day One.", size: "text-[clamp(28px,5vw,64px)]" },
 ];
 
 export default function MeetSection() {

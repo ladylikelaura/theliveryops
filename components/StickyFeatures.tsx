@@ -94,7 +94,29 @@ export default function StickyFeatures() {
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
+        {/* Mobile layout — simple stacked cards */}
+        <div className="flex flex-col gap-10 lg:hidden">
+          {features.map((feat) => (
+            <div key={feat.index} className="flex flex-col gap-4 rounded-[12px] border border-surface overflow-hidden">
+              {feat.video ? (
+                <video src={feat.video} autoPlay muted loop playsInline className="w-full h-auto object-cover" />
+              ) : (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={feat.image} alt={feat.imageAlt} className="w-full h-auto object-cover" />
+              )}
+              <div className="flex flex-col gap-2 px-5 pb-5">
+                <h3 className="font-display font-semibold text-[18px] leading-[1.15] tracking-[-0.01em] text-foreground">
+                  {feat.title}
+                </h3>
+                <p className="text-[13px] font-medium text-foreground/70">{feat.sub}</p>
+                <p className="text-[13px] text-muted leading-[1.7]">{feat.body}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Desktop layout — sticky text + scroll panels */}
+        <div className="hidden lg:grid grid-cols-2 gap-16 lg:gap-24">
           {/* Left — sticky text */}
           <div className="relative">
             <div className="lg:sticky lg:top-28">
@@ -104,7 +126,7 @@ export default function StickyFeatures() {
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -12 }}
-                  transition={{ duration: 0.3, ease: "easeOut" }}
+                  transition={{ duration: 0.35, ease: "easeOut" }}
                   className="flex flex-col gap-4"
                 >
                   <span className="text-[11px] font-semibold tracking-[0.12em] uppercase text-primary">
@@ -139,20 +161,20 @@ export default function StickyFeatures() {
           </div>
 
           {/* Right — scroll triggers + illustration panels */}
-          <div className="flex flex-col gap-12">
+          <div className="flex flex-col gap-8">
             {features.map((feat, i) => (
               <div
                 key={i}
                 ref={(el) => { if (el) triggerRefs.current[i] = el; }}
-                className="min-h-[380px]"
+                className="min-h-[75vh]"
               >
                 <AnimatePresence>
                   {active === i && (
                     <motion.div
-                      initial={{ opacity: 0, scale: 0.96, y: 8 }}
+                      initial={{ opacity: 0, scale: 0.97, y: 10 }}
                       animate={{ opacity: 1, scale: 1, y: 0 }}
-                      exit={{ opacity: 0, scale: 0.96, y: 8 }}
-                      transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
+                      exit={{ opacity: 0, scale: 0.97, y: 10 }}
+                      transition={{ duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] }}
                       className="w-full rounded-[12px] overflow-hidden relative border border-surface shadow-lg shadow-primary/[0.06]"
                     >
                       {feat.video ? (
@@ -177,7 +199,7 @@ export default function StickyFeatures() {
                 </AnimatePresence>
                 {active !== i && (
                   <div
-                    className="w-full h-[280px] rounded-[12px] border border-surface cursor-pointer hover:border-primary/25 hover:shadow-md hover:-translate-y-0.5 hover:bg-surface/40 transition-all duration-250 flex items-center justify-center"
+                    className="w-full h-[220px] rounded-[12px] border border-surface cursor-pointer hover:border-primary/25 hover:shadow-md hover:-translate-y-0.5 hover:bg-surface/40 transition-all duration-250 flex items-center justify-center"
                     onClick={() => setActive(i)}
                   >
                     <span className="text-[13px] font-medium text-muted/60 hover:text-muted transition-colors duration-200">{feat.title}</span>
