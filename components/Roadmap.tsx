@@ -83,13 +83,13 @@ export default function Roadmap() {
         </div>
       </div>
 
-      {/* Two-column: left scrolls, right sticks */}
+      {/* Two-column: left scrolls, right sticks — image hidden on mobile */}
       <div className="flex items-start max-w-[100vw]">
 
-        {/* Left — progress bar + tiers (50% width, padded) */}
-        <div className="w-1/2 px-6 lg:px-10 pb-32">
-          <div className="max-w-2xl ml-auto flex gap-8 lg:gap-10">
-            {/* Orange bar */}
+        {/* Left — progress bar + tiers */}
+        <div className="w-full lg:w-1/2 px-6 lg:px-10 pb-20 lg:pb-32">
+          <div className="max-w-2xl lg:ml-auto flex gap-8 lg:gap-10">
+            {/* Progress bar */}
             <div className="relative flex-shrink-0 w-[3px] bg-surface rounded-full self-stretch">
               <div
                 ref={barRef}
@@ -121,8 +121,8 @@ export default function Roadmap() {
           </div>
         </div>
 
-        {/* Right — sticky image, full section height */}
-        <div className="w-1/2 sticky top-0 h-screen overflow-hidden">
+        {/* Right — sticky image, desktop only */}
+        <div className="hidden lg:block w-1/2 sticky top-0 h-screen overflow-hidden">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/images/roadmap-right.png"
