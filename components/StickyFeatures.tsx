@@ -8,7 +8,7 @@ import OrangeUnderline from "@/components/OrangeUnderline";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const features = [
+const features: { index: number; title: string; sub: string; body: string; image: string; imageAlt: string; video?: string }[] = [
   {
     index: 0,
     title: "WhatsApp Bot That Knows Your Orders",
